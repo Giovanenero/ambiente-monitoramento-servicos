@@ -1,18 +1,19 @@
 import http from "./http-common";
 
-function usersLogged(token){
+//função que retorna todos os usuários do sistema
+function systemusers(token){
     return http
-        .post("/getnumberofuserslogged/", {
+        .post("/getsystemusers/", {
             token,
         })
         .then(response => {
-            return response;
+            return response.data;
         })
         .catch(error => console.log(error));
 }
 
 const endpoint = {
-    usersLogged,
+    systemusers,
 };
 
 export default endpoint;

@@ -5,33 +5,66 @@ import logoMongo from "./../../assets/img/mongoDB-logo.png";
 import logoSpring from "./../../assets/img/spring-logo.png";
 import logoSpark from "./../../assets/img/spark-logo.png";
 
+import endpoint from "../../endpoint/SystemLogs";
+
+import { useState, useEffect } from "react";
+
 function DashBoard(){
+
+    const [usersOnline, setUsersOnline] = useState([])
+
+    useEffect(() => {
+        const token = "token_156137644992000000149";
+        endpoint.systemlogs(token)
+        .then(data => {
+            setUsersOnline(data);
+        })
+        .catch(error => console.log(error));
+    }, []);
+
+    console.log(usersOnline);
+
     return (
         <div className={styles.containerDashBoard}>
             <div>
                 <div className={styles.title}>
                     <p>Services</p>
+                    <p>Usuários online</p>
                 </div>
-                <div className={styles.containerServices}>
-                    <Service 
-                        nameService="Spring"
-                        logo={logoSpring}
-                        css={styles.spring}
-                    />
-                    <Service 
-                        nameService="MongoDB"
-                        logo={logoMongo}
-                        css={styles.mongoDB}
-                    />
-                    <Service 
-                        nameService="Servidor"
-                        css={styles.servidor}
-                    />
-                    <Service 
-                        nameService="Spark"
-                        logo={logoSpark}
-                        css={styles.spark}
-                    />
+                <div className={styles.block}>
+                    <div className={styles.containerServices}>
+                        <Service 
+                            nameService="Spring"
+                            logo={logoSpring}
+                            css={styles.spring}
+                        />
+                        <Service 
+                            nameService="MongoDB"
+                            logo={logoMongo}
+                            css={styles.mongoDB}
+                        />
+                        <Service 
+                            nameService="Servidor"
+                            css={styles.servidor}
+                        />
+                        <Service 
+                            nameService="Spark"
+                            logo={logoSpark}
+                            css={styles.spark}
+                        />
+                    </div>
+                    <div className={styles.containerOnlineUsers}>
+                        <header>
+
+                        </header>
+                        {usersOnline.map((user, index) => {
+                            return (
+                                <div className={styles.userOnline} key={index}>
+                                    <p>{user.firstName} {user.lastName}</p>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,38 +1,33 @@
 import styles from "./../../assets/views/pages/UsersSystem.module.css";
-
 import { FiSearch } from "react-icons/fi";
-
 import { useState, useEffect } from "react";
-
 import { PopUp } from "../../components/PopUp";
 import InfoUser from "../popups/InfoUser";
+import endpoint from "./../../endpoint/SystemUsers";
 
 function UsersSystem(){
 
     const [trigger, setTrigger] = useState();
-    const [usersInfo, setUsersInfo] = useState([]);
+    const [systemUsers, setSystemUsers] = useState([])
+    const [user, setUser] = useState(null)
 
     useEffect(() => {
         setTrigger(false)
-        let i;
-        let listUsersInfo = [];
-        for(i = 0; i < 14; i++){
-            let aux = {
-                name: "wise",
-                memory: "10MB",
-                action: "login",
-                date: "10/02/2023 às 14:08:18",
-            }
-            listUsersInfo.push(aux);
-        }
-        setUsersInfo(listUsersInfo);
+        //token de teste
+        const token = "token_156137644992000000149";
+        endpoint.systemusers(token)
+        .then(data => {
+            setSystemUsers(data);
+        })
+        .catch(error => console.log(error));
     }, []);
+
     return (
         <>
             <div className={styles.containerUsersSystem}>
                 <div className={styles.title}>
                     <p>Usuários do Sistema</p>
-                    <p>Qntd. de Usuários: {usersInfo.length}</p>
+                    <p>Qntd. de Usuários: {systemUsers.length}</p>
                 </div>
                 <div className={styles.containerSearch}>
                     <div className={styles.input}>
@@ -44,7 +39,7 @@ function UsersSystem(){
                     <header className={styles.header}>
                         <p>usuário</p>
                         <span></span>
-                        <p>memória utilizada</p>
+                        <p>armazenamento utilizada</p>
                         <span></span>
                         <p>tipo de ação</p>
                         <span></span>
@@ -52,13 +47,13 @@ function UsersSystem(){
                     </header>
 
                     <div className={styles.logs}>
-                        {usersInfo.map((element, index) => {
+                        {systemUsers.map((systemUser, index) => {
                             return (
-                                <div className={styles.log} onClick={() => setTrigger(true)} key={index}>
-                                    <p>{element.name}</p>
-                                    <p>{element.memory}</p>
-                                    <p>{element.action}</p>
-                                    <p>{element.date}</p>
+                                <div className={styles.log} onClick={() => {setTrigger(true); setUser(systemUser);}} key={index}>
+                                    <p>{systemUser.firstName + " " + systemUser.lastName}</p>
+                                    <p>{systemUser.mongoDiskUsageMB !== 0 ? systemUser.mongoDiskUsageMB + "MB" : "-"}</p>
+                                    <p>-</p>
+                                    <p>-</p>
                                 </div>
                             )
                         })}
@@ -67,7 +62,7 @@ function UsersSystem(){
             </div>
             {trigger && (
                 <PopUp trigger={trigger} setTrigger={setTrigger} title="Informações do usuário e histórico de acesso">
-                    <InfoUser />
+                    <InfoUser user={user}/>
                 </PopUp>
             )}
         </>

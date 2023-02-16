@@ -4,9 +4,11 @@ import photo from "./../../assets/img/foto-perfil.jpg";
 
 import { useState, useEffect } from "react";
 
-function InfoUser(){
+function InfoUser({user}){
 
     const [accessHistory, setAccessHistory] = useState([]);
+
+    console.log(user);
 
     useEffect(() => {
         let i;
@@ -27,32 +29,33 @@ function InfoUser(){
                 <div className={styles.nameUser}>
                     <img src={photo} alt="foto do perfil" />
                     <div>
-                        <p>Giovane</p>
-                        <p>Limas Salvi</p>
+                        <p>{user.firstName}</p>
+                        <p>{user.lastName}</p>
                     </div>
                 </div>
-                <div className={styles.email}>giovanesalvi@alunos.utfpr.edu.br</div>
+                <div className={styles.email}>{user.email}</div>
                 <div className={styles.block}>
                     <span>Local</span>
                     <ul>
-                        <li>Cidade: Curitiba/PR;</li>
-                        <li>País: Brasil;</li>
+                        <li>Cidade: {user.city}</li>
+                        <li>Estado: {user.state}</li>
+                        <li>País: {user.country}</li>
                     </ul>
                 </div>
                 <div className={styles.block}>
                     <span>Informações da Empresa</span>
                     <ul>
-                        <li>nome: VASPP;</li>
-                        <li>Mercado: Autônomo;</li>
-                        <li>Posição: Administrador;</li>
-                        <li>funcionários: 234;</li>
+                        <li>Nome: {user.companyName}</li>
+                        <li>Mercado: {user.companyMarketField}</li>
+                        <li>Posição: {user.position}</li>
+                        <li>funcionários: {user.companyNumberOfEmployees}</li>
                     </ul>
                 </div>
                 <div className={styles.block}>
                     <span>Informações do cliente com o ambiente da WiseML</span>
                     <ul>
-                        <li>Cliente experiente;</li>
-                        <li>Conheceu através de Redes Sociais;</li>
+                        <li>Experiência: {user.intendedUse}</li>
+                        <li>Conheceu: {user.howCameToKnow}</li>
                     </ul>
                 </div>
             </div>
