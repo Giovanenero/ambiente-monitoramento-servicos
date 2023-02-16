@@ -2,7 +2,25 @@ import styles from "./../../assets//views/popups/InfoUser.module.css";
 
 import photo from "./../../assets/img/foto-perfil.jpg";
 
+import { useState, useEffect } from "react";
+
 function InfoUser(){
+
+    const [accessHistory, setAccessHistory] = useState([]);
+
+    useEffect(() => {
+        let i;
+        let listAccessHistory = [];
+        for(i = 0; i < 10; i++){
+            let aux = {
+                date: "10/05/2022 às 10:53:24",
+                action: "login"   
+            }
+            listAccessHistory.push(aux);
+        }
+        setAccessHistory(listAccessHistory);
+    }, []);
+
     return (
         <div className={styles.containerInfoUser}>
             <div className={styles.containerPersonalInfo}>
@@ -14,24 +32,45 @@ function InfoUser(){
                     </div>
                 </div>
                 <div className={styles.email}>giovanesalvi@alunos.utfpr.edu.br</div>
-                <div className={styles.locality}>
-                    <span>Local:</span>
-                    <div>
-                        <p>Cidade: Curitiba/PR</p>
-                        <p>País: Brasil</p>
-                    </div>
+                <div className={styles.block}>
+                    <span>Local</span>
+                    <ul>
+                        <li>Cidade: Curitiba/PR;</li>
+                        <li>País: Brasil;</li>
+                    </ul>
                 </div>
-                <div className={styles.company}>
-                    <span>Empresa:</span>
-                    <div>
-                        <p>nome: VASP</p>
-                        <p>Mercado: Autônomo</p>
-                        <p>Posiçao: Administrador</p>
-                        <p>Qntd. de funcionários: 234</p>
-                    </div>
+                <div className={styles.block}>
+                    <span>Informações da Empresa</span>
+                    <ul>
+                        <li>nome: VASPP;</li>
+                        <li>Mercado: Autônomo;</li>
+                        <li>Posição: Administrador;</li>
+                        <li>funcionários: 234;</li>
+                    </ul>
                 </div>
-                <div className={styles.others}>
-                    <span>Outros</span>
+                <div className={styles.block}>
+                    <span>Informações do cliente com o ambiente da WiseML</span>
+                    <ul>
+                        <li>Cliente experiente;</li>
+                        <li>Conheceu através de Redes Sociais;</li>
+                    </ul>
+                </div>
+            </div>
+            <div className={styles.userLogs}>
+                <header>
+                    <p>Data</p>
+                    <span></span>
+                    <p>Tipo de Ação</p>
+                </header>
+                <div className={styles.logs}>
+                    {accessHistory.map((element, index) => {
+                        return (
+                            <div key={index}>
+                                <p>{element.date}</p>
+                                <p>{element.action}</p>
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         </div>

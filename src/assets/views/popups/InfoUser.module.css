@@ -1,15 +1,16 @@
 .containerInfoUser {
-    width: 570px;
-    height: 400px;
+    width: 770px;
+    height: 500px;
     background-color: #fff;
     border-radius: 0 0 15px 15px;
-    padding: 0 15px;
-    font-size: 11px;
+    padding: 15px 30px 15px 30px;
+    font-size: 13px;
+    display: flex;
 }
 
 .containerPersonalInfo {
     background-color: #eee;
-    width: 35%;
+    width: 40%;
     height: 98%;
     border-radius: 15px;
     overflow: scroll;
@@ -20,8 +21,8 @@
     display: flex;
     align-items: center;
     width: 100%;
-    height: 15%;
-    gap: 10px;
+    height: 20%;
+    gap: 20px;
 }
 
 .nameUser img {
@@ -37,27 +38,73 @@
     justify-content: center;
 }
 
-.locality,
-.company {
-    margin-top: 10px;
+.block {
+    margin-top: 20px;
     padding-left: 15px;
-    background-color: yellow;
     display: flex;
     flex-direction: column;
 }
 
-.locality span,
-.company span {
+.block span {
     font-size: 12px;
     font-weight: 600;
 }
 
-.locality div,
-.company div {
-    margin-top: 5px;
+.block ul {
+    margin-top: 10px;
 }
 
-.locality div p,
-.company div p {
-    margin: 0px;
+.block ul li {
+    margin-left: -15px;
+}
+
+.userLogs {
+    width: 55%;
+    height: 98%;
+    padding-left: 30px;
+    padding-right: 15px;
+}
+
+.userLogs header {
+    background-color: #fafafa;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    border-bottom: 1px solid #eee;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.userLogs header p {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.userLogs header span {
+    border-right: 2px solid #eee;
+    width: 0px;
+    height: 60%;
+    margin: auto 0;
+}
+
+.logs {
+    width: 100%;
+    height: 90%;
+    overflow: scroll;
+}
+
+.logs div {
+    display: flex;
+    width: 100%;
+    height: 50px;
+}
+
+.logs div p {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
 }

@@ -3,7 +3,7 @@ import wiseLogo from "./../assets/img/wise-logo.png";
 
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import DashBoard from "../views/pages/DashBoard";
-import SystemLogs from "./../views/pages/SystemLogs";
+import UsersSystem from "./../views/pages/UsersSystem";
 import Spring from "./../views/pages/Spring";
 import Spark from "./../views/pages/Spark";
 import MongoDB from "./../views/pages/MongoDB";
@@ -27,7 +27,7 @@ function Navigation(){
                         <div onClick={() => setPageSelected("DashBoard")} className={pageSelected === "DashBoard" ? styles.selected : ""}>DASHBOARD</div>
                     </Link>
                     <Link to="/systemlogs" style={{textDecoration: "none", color: "#282828"}}>
-                        <div onClick={() => setPageSelected("Logs do Sistema")} className={pageSelected === "Logs do Sistema" ? styles.selected : ""}>LOGS DO SISTEMA</div>
+                        <div onClick={() => setPageSelected("Usuários do Sistema")} className={pageSelected === "Usuários do Sistema" ? styles.selected : ""}>USUÁRIOS DO SISTEMA</div>
                     </Link>
                 </div>
                 <div className={styles.logout}>
@@ -36,7 +36,7 @@ function Navigation(){
             </div>
             <Switch>
                 <Route path="/" exact component={DashBoard}/>
-                <Route path="/systemlogs" component={SystemLogs}/>
+                <Route path="/systemlogs" component={UsersSystem}/>
                 <Route path="/spring" component={Spring}/>
                 <Route path="/mongodb" component={MongoDB}/>
                 <Route path="/servidor" component={Servidor}/>

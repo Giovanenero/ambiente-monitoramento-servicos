@@ -1,6 +1,12 @@
-.containerSystemLogs {
+.containerUsersSystem {
     margin: 30px auto 0px auto;
     width: 85%;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 5px;
 }
 
 .containerSearch {
@@ -78,17 +84,12 @@
     overflow: scroll;
 }
 
-.log p,
-.log div {
-    width: 33.33%;
+.log p {
+    width: 25%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 14px;
-}
-
-.log div p {
-    margin: auto 6px;
 }
 
 .log:hover {
