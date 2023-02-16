@@ -1,0 +1,63 @@
+.containerInfoUser {
+    width: 570px;
+    height: 400px;
+    background-color: #fff;
+    border-radius: 0 0 15px 15px;
+    padding: 0 15px;
+    font-size: 11px;
+}
+
+.containerPersonalInfo {
+    background-color: #eee;
+    width: 35%;
+    height: 98%;
+    border-radius: 15px;
+    overflow: scroll;
+}
+
+.nameUser {
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 15%;
+    gap: 10px;
+}
+
+.nameUser img {
+    margin-left: 10px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.email {
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.locality,
+.company {
+    margin-top: 10px;
+    padding-left: 15px;
+    background-color: yellow;
+    display: flex;
+    flex-direction: column;
+}
+
+.locality span,
+.company span {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.locality div,
+.company div {
+    margin-top: 5px;
+}
+
+.locality div p,
+.company div p {
+    margin: 0px;
+}

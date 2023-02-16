@@ -1,0 +1,43 @@
+.containerServidor {
+    display: flex;
+    flex-direction: column;
+    margin: 15px auto 0px auto;
+    width: 80%;
+}
+
+.containerServidor p {
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.2px;
+    margin-left: 15px;
+    font-weight: 600;
+}
+
+.contentServidor {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.useDisk div,
+.useGraphic {
+    border-radius: 10px;
+    background-color: #fff;
+    height: 300px;
+}
+
+.useDisk {
+    display: flex;
+    justify-content: space-between;
+}
+
+.useDisk div {
+    width: 49.5%;
+    display: flex;
+    justify-content: center;
+}
+
+.useGraphic {
+    width: 100%;
+}

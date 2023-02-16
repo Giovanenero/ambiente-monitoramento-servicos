@@ -1,0 +1,53 @@
+.containerDashBoard {
+    position: relative;
+    width: 100%;
+    background-color: #eee;
+}
+
+.containerServices {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    /* height: 250px; */
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+.title {
+    margin-left: 14%;
+    position: relative;
+}
+
+.mongoDB,
+.spring,
+.spark,
+.servidor {
+    position: absolute;
+}
+
+.mongoDB {
+    top: 35%;
+    left: 55%;
+    width: 120px;
+    height: 100px;
+}
+
+.spring {
+    top: 29%;
+    left: 55%;
+    width: 150px;
+    height: 130px;
+}
+
+.spark {
+    top: 45%;
+    left: 68%;
+    width: 80px;
+    height: 50px;
+}
+
+.servidor {
+    top: 43%;
+    left: 70%;
+}

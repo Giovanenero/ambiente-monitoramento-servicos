@@ -1,0 +1,116 @@
+.mongoDB {
+    background-color: #eee;
+}
+
+.containerMongoDB {
+    position: relative;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    margin: 50px auto 0 auto;
+}
+
+.containerHeader {
+    width: 100%;
+    height: 220px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.useMemory,
+.img,
+.containerLogs {
+    border-radius: 15px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: 1px 1px 1px 1px #a09d9d;
+}
+
+.useMemory {
+    width: 70%;
+}
+
+.img {
+    width: 28%;
+    display: flex;
+    align-items: center center;
+    justify-content: center;
+}
+
+.containerLogs {
+    margin-top: 15px;
+    width: 100%;
+    height: 500px;
+    overflow: scroll;
+}
+
+.containerHeaderLogs {
+    display: flex;
+    height: 100px;
+    width: 100%;
+    flex-direction: column;
+}
+
+.containerHeaderLogs p {
+    margin: 10px auto 0px auto;
+}
+
+.containerHeaderLogs div {
+    margin-top: 8px;
+    display: flex;
+    border-bottom: 1px solid #ddd;
+}
+
+.data,
+.log {
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    font-size: 17px;
+    font-weight: bold;
+    overflow: scroll
+}
+
+.data {
+    width: 20%;
+    border-right: 1px solid #ddd;
+}
+
+.log {
+    width: 80%;
+}
+
+.containerLog {
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    width: 100%;
+    font-size: 12px;
+}
+
+.containerLog div {
+    display: flex;
+    flex-direction: column;
+}
+
+.containerLog div,
+.containerLog article {
+    justify-content: center;
+    align-items: center;
+}
+
+.containerLog div {
+    width: 20%;
+}
+
+.containerLog div p {
+    margin: 0px;
+}
+
+.containerLog article {
+    width: 80%;
+}
+
+.containerLog article p {
+    text-align: start;
+    margin-left: 20px;
+}
