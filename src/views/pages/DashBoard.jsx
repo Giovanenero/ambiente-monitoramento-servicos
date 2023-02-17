@@ -11,18 +11,16 @@ import { useState, useEffect } from "react";
 
 function DashBoard(){
 
-    const [usersOnline, setUsersOnline] = useState([])
+    const [usersOnline, setUsersOnline] = useState([]);
 
     useEffect(() => {
-        const token = "token_156137644992000000149";
+        const token = localStorage.getItem("token");
         endpoint.systemlogs(token)
         .then(data => {
             setUsersOnline(data);
         })
         .catch(error => console.log(error));
     }, []);
-
-    console.log(usersOnline);
 
     return (
         <div className={styles.containerDashBoard}>
@@ -54,13 +52,11 @@ function DashBoard(){
                         />
                     </div>
                     <div className={styles.containerOnlineUsers}>
-                        <header>
-
-                        </header>
                         {usersOnline.map((user, index) => {
                             return (
                                 <div className={styles.userOnline} key={index}>
                                     <p>{user.firstName} {user.lastName}</p>
+                                    <div></div>
                                 </div>
                             )
                         })}

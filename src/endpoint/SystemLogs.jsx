@@ -1,6 +1,7 @@
 import http from "./http-common";
 
 function systemlogs(token){
+    // eslint-disable-next-line 
     return http.
         post("/getloggedusers/", {
             token,
@@ -12,7 +13,6 @@ function systemlogs(token){
 }
 
 const endpoint = {
-    systemlogs,
+    systemlogs
 };
-
 export default endpoint;

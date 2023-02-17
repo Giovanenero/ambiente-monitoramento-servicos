@@ -13,14 +13,15 @@ function UsersSystem(){
 
     useEffect(() => {
         setTrigger(false)
-        //token de teste
-        const token = "token_156137644992000000149";
+        const token = localStorage.getItem("token");
         endpoint.systemusers(token)
         .then(data => {
             setSystemUsers(data);
         })
         .catch(error => console.log(error));
     }, []);
+
+    console.log(systemUsers)
 
     return (
         <>
