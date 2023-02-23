@@ -1,0 +1,12 @@
+.containerInfoLogSpring {
+    width: 800px;
+    height: 500px;
+    background-color: #fff;
+    border-radius: 0 0 15px 15px;
+    overflow: scroll;
+}
+
+.containerInfoLogSpring div {
+    width: 100%;
+    margin: 5px auto;
+}

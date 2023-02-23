@@ -2,8 +2,7 @@ import styles from "./../../assets/views/pages/DashBoard.module.css";
 
 import Service from "./../../components/Service";
 import logoMongo from "./../../assets/img/mongoDB-logo.png";
-import logoSpring from "./../../assets/img/spring-logo.png";
-import logoSpark from "./../../assets/img/spark-logo.png";
+import logoJava from "./../../assets/img/java-logo.png";
 
 import endpoint from "../../endpoint/SystemLogs";
 
@@ -25,33 +24,29 @@ function DashBoard(){
     return (
         <div className={styles.containerDashBoard}>
             <div>
-                <div className={styles.title}>
-                    <p>Services</p>
-                    <p>Usuários online</p>
-                </div>
+                <div className={styles.title}><p>Services</p></div>
                 <div className={styles.block}>
                     <div className={styles.containerServices}>
-                        <Service 
-                            nameService="Spring"
-                            logo={logoSpring}
-                            css={styles.spring}
-                        />
                         <Service 
                             nameService="MongoDB"
                             logo={logoMongo}
                             css={styles.mongoDB}
+                            path="/mongodb"
+                        />
+                        <Service 
+                            nameService="Java"
+                            logo={logoJava}
+                            css={styles.java}
+                            path="/java"
                         />
                         <Service 
                             nameService="Servidor"
                             css={styles.servidor}
-                        />
-                        <Service 
-                            nameService="Spark"
-                            logo={logoSpark}
-                            css={styles.spark}
+                            path="/servidor"
                         />
                     </div>
                     <div className={styles.containerOnlineUsers}>
+                        <div className={styles.titleOnlineUsers}><p>Usuários online</p></div>
                         {usersOnline.map((user, index) => {
                             return (
                                 <div className={styles.userOnline} key={index}>

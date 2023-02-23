@@ -5,7 +5,7 @@
 }
 
 .block {
-    margin: 0 auto;
+    margin: 0px auto;
     width: 95%;
     display: flex;
     justify-content: space-between;
@@ -19,12 +19,21 @@
     overflow: scroll;
 }
 
+.titleOnlineUsers {
+    background-color: #fdfdfd;
+    display: flex;
+    padding-left: 15px;
+    border-bottom: 1px solid #eee;
+    font-weight: 500;
+}
+
 .userOnline {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 15px;
     border-bottom: 1px solid #eee;
+    font-size: 15px;
 }
 
 .userOnline div {
@@ -38,7 +47,6 @@
     display: flex;
     flex-direction: row;
     width: 70%;
-    justify-content: center;
     gap: 25px;
     flex-wrap: wrap;
 }
@@ -46,14 +54,11 @@
 .title {
     display: flex;
     justify-content: space-between;
-    margin-left: 7.5%;
-    margin-right: 22%;
-    position: relative;
+    margin-left: 3%;
 }
 
 .mongoDB,
-.spring,
-.spark,
+.java,
 .servidor {
     position: absolute;
 }
@@ -65,18 +70,11 @@
     height: 100px;
 }
 
-.spring {
-    top: 29%;
-    left: 55%;
-    width: 150px;
-    height: 130px;
-}
-
-.spark {
-    top: 45%;
-    left: 68%;
-    width: 80px;
-    height: 50px;
+.java {
+    top: 40%;
+    left: 65%;
+    width: 90px;
+    height: 70px;
 }
 
 .servidor {

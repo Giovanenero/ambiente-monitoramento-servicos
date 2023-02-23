@@ -1,5 +1,6 @@
 import http from "./http-common";
 
+//função que retorna todos os usuários online
 function systemlogs(token){
     // eslint-disable-next-line 
     return http.

@@ -17,9 +17,7 @@ function javamemoryusegraph(){
 //Retorna a memória utilizada pelo MongoDB
 function mongomemoryusegraph(){
     return http.post("/getmongomemoryusegraph/")
-    .then(response => {
-        return response.data
-    })
+    .then(response => {return response.data})
     .catch(error => console.log(error));
 }
 

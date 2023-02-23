@@ -15,13 +15,10 @@ function UsersSystem(){
         setTrigger(false)
         const token = localStorage.getItem("token");
         endpoint.systemusers(token)
-        .then(data => {
-            setSystemUsers(data);
-        })
+        .then(data => {setSystemUsers(data)})
         .catch(error => console.log(error));
     }, []);
 
-    console.log(systemUsers)
 
     return (
         <>

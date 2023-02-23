@@ -8,12 +8,17 @@ import Spring from "./../views/pages/Spring";
 import Spark from "./../views/pages/Spark";
 import MongoDB from "./../views/pages/MongoDB";
 import Servidor from "./../views/pages/Servidor";
+import Java from "./../views/pages/Java";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Navigation(){
 
-    const [pageSelected, setPageSelected] = useState("DashBoard");
+    const [pageSelected, setPageSelected] = useState("");
+
+    useEffect(() => {
+        setPageSelected("DashBoard");
+    }, []);
 
     return (
         <Router>
@@ -37,10 +42,11 @@ function Navigation(){
             <Switch>
                 <Route path="/" exact component={DashBoard}/>
                 <Route path="/systemlogs" component={UsersSystem}/>
-                <Route path="/spring" component={Spring}/>
+                <Route path="/java/spring" component={Spring}/>
                 <Route path="/mongodb" component={MongoDB}/>
                 <Route path="/servidor" component={Servidor}/>
-                <Route path="/spark" component={Spark}/>
+                <Route path="/java/spark" component={Spark}/>
+                <Route path="/java" component={Java}/>
             </Switch>
         </Router>
     );
