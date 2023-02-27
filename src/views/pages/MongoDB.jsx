@@ -53,22 +53,32 @@ function MongoDB({location}){
         },
     ]
 
-
     useEffect(() => {
+        let auxLabels = [];
+        let auxData = [];
+        props.graphic.forEach(data => {
+            console.log(data._id.date);
+            let date = data._id.date;
+            date = date.slice(11, 19);
+            auxLabels.push(date);
+        })
+        props.graphic.forEach(data => {
+            auxData.push(data.MemoryUse)
+        })
         ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Filler, Title, Tooltip, Legend);
         setUserData({
-            labels: ["2016", "2017", "2018", "2019", "2020"],
+            labels: auxLabels.reverse(),
             datasets: [{
                 label: "CPU %",
-                data: ["2000", "5000", "1500", "3200", "1200"],
+                data: auxData.reverse(),
                 backgroundColor: 'rgba(255, 0, 0, 0.2)',
                 borderColor: 'rgba(255, 0, 0, 0.6)',
                 fill: true,
                 pointRadius: 0,
-                lineTension: 0.2
+                lineTension: 0.2,
             }, {
                 label: 'RAM %',
-                data: ["1000", "2000", "1500", "2000", "3500"],
+                data: auxData.reverse(),
                 backgroundColor: 'rgba(0, 0, 255, 0.2)',
                 borderColor: 'rgba(0, 0, 255, 0.6)',
                 fill: true,
@@ -85,10 +95,11 @@ function MongoDB({location}){
                     text: "Uso CPU e RAM"
                 },
                 legend: {
-                    position: "top"
+                    position: "top",
                 },
             },
         })
+        // eslint-disable-next-line
     }, [])
 
     return (

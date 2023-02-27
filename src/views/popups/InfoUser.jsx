@@ -4,11 +4,11 @@ import photo from "./../../assets/img/foto-perfil.jpg";
 
 import { useState, useEffect } from "react";
 
+import endpoint from "./../../endpoint/SystemUsers";
+
 function InfoUser({user}){
 
     const [accessHistory, setAccessHistory] = useState([]);
-
-    console.log(user);
 
     useEffect(() => {
         let i;
@@ -21,6 +21,12 @@ function InfoUser({user}){
             listAccessHistory.push(aux);
         }
         setAccessHistory(listAccessHistory);
+
+        endpoint.useraccess(localStorage.getItem("token"), "63fcfa6e46f3667bd5163164")
+        .then(data => console.log(data))
+        .catch(error => console.log(error));
+
+
     }, []);
 
     return (

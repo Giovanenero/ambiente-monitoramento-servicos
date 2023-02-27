@@ -49,14 +49,14 @@ function Java({location}){
 
     useEffect(() => {
         setTrigger(false);
-        endpoint.springbootlog()
+        endpoint.springbootlog(localStorage.getItem("token"))
         .then(data => {
             let i = 0;
             let auxLogs = [];
             while(i < data.length){
                 let aux = treatData(data[i]);
                 if(aux !== null){
-                    auxLogs.push(aux);
+                    auxLogs.unshift(aux);
                 }
                 i++
             }
@@ -65,8 +65,6 @@ function Java({location}){
         .catch(error => console.log(error));
         // eslint-disable-next-line 
     }, []);
-
-    console.log(logs);
 
     return (
         <>
@@ -100,7 +98,7 @@ function Java({location}){
                                             <div>{data.clock}</div>
                                         </div>
                                         <div className={styles.log}>
-                                            {data.lines}
+                                            {(data.lines[0]).slice(21)}
                                         </div>
                                     </div>
                                 )

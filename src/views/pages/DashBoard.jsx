@@ -4,7 +4,7 @@ import Service from "./../../components/Service";
 import logoMongo from "./../../assets/img/mongoDB-logo.png";
 import logoJava from "./../../assets/img/java-logo.png";
 
-import endpoint from "../../endpoint/SystemLogs";
+import endpoint from "../../endpoint/SystemUsers";
 
 import { useState, useEffect } from "react";
 

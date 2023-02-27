@@ -14,65 +14,53 @@ function Service({
     const [imgService, setImgService] = useState("");
     const [infoService, setInfoService] = useState("");
     const [useMemory, setUseMemory] = useState("");
+    const [graphic, setGraphic] = useState([]);
 
 
     function memoryMongo(){
-        endpoint.mongomemoryusegraph()
+        endpoint.mongomemoryusegraph(localStorage.getItem("token"))
         .then(data => {
-            setUseMemory((data[0].MemoryUse/1000).toFixed(2));
+            setGraphic(data);
+            let total = parseInt(data[0].MemoryTotal);
+            let memoryUse = parseInt(data[0].MemoryUse);
+            let porcentage = ((memoryUse/total)*100).toFixed(2);
+            setUseMemory({
+                Gb: (memoryUse/1000).toFixed(2),
+                porcentage: porcentage,
+            });
         })
         .catch(error => console.log(error));
     }
 
     function memoryJava(){
-        endpoint.javamemoryusegraph()
+        endpoint.javamemoryusegraph(localStorage.getItem("token"))
             .then(data => {
-            setUseMemory((data[0].MemoryUse/1000).toFixed(2));
+                setGraphic(data)
+                let total = parseInt(data[0].MemoryTotal);
+                let memoryUse = parseInt(data[0].MemoryUse);
+                let porcentage = ((memoryUse/total)*100).toFixed(2);
+                setUseMemory({
+                    Gb: (memoryUse/1000).toFixed(2),
+                    porcentage: porcentage,
+                });
         })
         .catch(error => console.log(error));
     }
 
     function memoryServidor(){
-        let sum = 0;
-        endpoint.mongomemoryusegraph()
+        endpoint.servermemoryusegraph(localStorage.getItem("token"))
         .then(data => {
-            sum += data[0].MemoryUse/1000;
-            endpoint.javamemoryusegraph()
-            .then(data => {
-                sum += data[0].MemoryUse/1000;
-                setUseMemory(sum.toFixed(2));
-            })
-            .catch(error => console.log(error));
+            setGraphic(data);
+            let total = parseInt(data[0].MemoryTotal);
+            let memoryUse = parseInt(data[0].MemoryUse);
+            let porcentage = ((memoryUse/total)*100).toFixed(2);
+            setUseMemory({
+                Gb: (memoryUse/1000).toFixed(2),
+                porcentage: porcentage,
+            });
         })
         .catch(error => console.log(error));
     }  
-
-    useEffect(() => {
-        if(nameService === "MongoDB" || nameService === "Java"){
-            setInfoService(
-                <>
-                    <h2>STATUS</h2>
-                    <p>Conectado/Desconectado</p>
-                    <h2>USO DA MEMÓRIA</h2>
-                    <p>{useMemory + "GB"}</p>
-                </>
-            )
-        } else {
-            endpoint.mongodiskuse()
-            .then(data => {
-                setInfoService(
-                    <>
-                        <h2>USO DE DISCO</h2>
-                        <p>{(data/1000).toFixed(2) + "GB"}</p>
-                        <h2>USO DA MEMÓRIA</h2>
-                        <p>{useMemory + "GB"}</p>
-                    </>
-                )
-            })
-            .catch(error => console.log(error));
-        }
-        // eslint-disable-next-line
-    }, [useMemory]);
 
     useEffect(() => {
         if(nameService === "MongoDB" || nameService === "Java" || nameService === "Spring" || nameService === "Spark"){
@@ -89,6 +77,35 @@ function Service({
         // eslint-disable-next-line
     }, []);
 
+    useEffect(() => {
+        if(nameService === "MongoDB" || nameService === "Java"){
+            setInfoService(
+                <>
+                    <h2>STATUS</h2>
+                    <p>Conectado/Desconectado</p>
+                    <h2>USO DA MEMÓRIA</h2>
+                    <p>{`${useMemory.Gb}Gb (${useMemory.porcentage}%)`}</p>
+                </>
+            )
+        } else {
+            endpoint.cpudiskusegraph(localStorage.getItem("token"))
+            .then(data => {
+                let useDisk = parseInt(data[0].DiskUse);
+                let porcentage = ((useDisk/parseInt(data[0].DiskTotal))*100).toFixed(2);
+                setInfoService(
+                    <>
+                        <h2>USO DE DISCO</h2>
+                        <p>{`${useDisk}Gb (${porcentage}%)`}</p>
+                        <h2>USO DA CPU/RAM</h2>
+                        <p>{`${data[0].CpuUse}% / ${useMemory.Gb}Gb (${useMemory.porcentage}%)`}</p>
+                    </>
+                )
+            })
+            .catch(error => console.log(error));
+        }
+        // eslint-disable-next-line
+    }, [useMemory]);
+
     return (
         <div className={styles.containerService}>
             {imgService}
@@ -98,7 +115,7 @@ function Service({
             <div className={styles.containerInfo}>
                 {infoService}
             </div>
-            <Link to={{pathname: path, state: {logo: logo}}}>
+            <Link to={{pathname: path, state: {logo: logo, graphic: graphic}}}>
                 <button>Ver mais</button>
             </Link>
         </div>

@@ -3,7 +3,11 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title, CategoryScale, Li
 import { Doughnut, Line } from "react-chartjs-2";
 import { useState, useEffect } from "react";
 
-function Servidor(){
+function Servidor({location}){
+
+    const props = location.state;
+    console.log(props.graphic);
+    
     const [graphicLeftData, setGraphicLeftData] = useState(null)
     const [graphicRightData, setGraphicRightData] = useState(null)
     const [graphicBottomData, setGraphicBottomData] = useState(null)
