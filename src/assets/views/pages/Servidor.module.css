@@ -20,24 +20,14 @@
     gap: 12px;
 }
 
-.useDisk div,
+.useDisk,
 .useGraphic {
     border-radius: 10px;
     background-color: #fff;
     height: 300px;
+    width: 100%;
 }
 
 .useDisk {
-    display: flex;
-    justify-content: space-between;
-}
-
-.useDisk div {
-    width: 49.5%;
-    display: flex;
-    justify-content: center;
-}
-
-.useGraphic {
-    width: 100%;
+    padding: 10px 0px 30px 0px;
 }

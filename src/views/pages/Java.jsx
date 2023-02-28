@@ -7,12 +7,16 @@ import endpoint from "./../../endpoint/SpringBootLog";
 import { PopUp } from "../../components/PopUp";
 import InfoLogSpring from "../popups/InfoLogSpring";
 
+import { Line } from "react-chartjs-2";
+import {Chart as ChartJS, CategoryScale, LinearScale, Filler, Title, Tooltip, Legend, PointElement, LineElement} from "chart.js"
+
 function Java({location}){
     var props = location.state;
 
     const [logs, setLogs] = useState([]);
     const [trigger, setTrigger] = useState();
     const [lines, setLines] = useState([]);
+    const [graphic, setGraphic] = useState();
 
     function treatTime(date){
         let year = date.slice(0, 4);
@@ -47,8 +51,45 @@ function Java({location}){
         } return null;
     }
 
-    useEffect(() => {
-        setTrigger(false);
+    function initializeGraphic(){
+        let auxData = [];
+        let auxLabels = [];
+        props.graphic.forEach(element => {
+            let aux;
+            auxData.push(element.MemoryUse);
+            aux = element._id.date;
+            auxLabels.push(aux.slice(11, 19));
+        });
+        setGraphic({
+            data: {
+                labels: auxLabels.reverse(),
+                datasets: [{
+                    label: "Memória",
+                    data: auxData.reverse(),
+                    backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                    borderColor: 'rgba(255, 0, 0, 0.6)',
+                    fill: true,
+                    pointRadius: 0,
+                    lineTension: 0.2,
+                },]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "Uso de memória"
+                    },
+                    legend: {
+                        position: "top",
+                    },
+                },
+            }
+        })
+    }
+
+    function initializeLogs(){
         endpoint.springbootlog(localStorage.getItem("token"))
         .then(data => {
             let i = 0;
@@ -63,6 +104,13 @@ function Java({location}){
             setLogs(auxLogs);
         })
         .catch(error => console.log(error));
+    }
+
+    useEffect(() => {
+        setTrigger(false);
+        ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Filler, Title, Tooltip, Legend);
+        initializeGraphic();
+        initializeLogs();
         // eslint-disable-next-line 
     }, []);
 
@@ -71,7 +119,7 @@ function Java({location}){
             <div className={styles.containerJava}>
                 <div className={styles.containerGraphic}>
                     <div className={styles.graphic}>
-                        Gráfico
+                        {graphic && <Line data={graphic.data} options={graphic.options}/>}
                     </div>
                     <div className={styles.image}>
                         <img src={props.logo} alt="logo do java" style={{width: 170, height: 110}}/>

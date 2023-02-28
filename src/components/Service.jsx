@@ -14,7 +14,7 @@ function Service({
     const [imgService, setImgService] = useState("");
     const [infoService, setInfoService] = useState("");
     const [useMemory, setUseMemory] = useState("");
-    const [graphic, setGraphic] = useState([]);
+    const [graphic, setGraphic] = useState(null);
 
 
     function memoryMongo(){
@@ -100,6 +100,26 @@ function Service({
                         <p>{`${data[0].CpuUse}% / ${useMemory.Gb}Gb (${useMemory.porcentage}%)`}</p>
                     </>
                 )
+                if(graphic !== null){
+                    let auxMemory = [];
+                    let auxCpu = [];
+                    let auxTime = [];
+                    graphic.forEach(element => {
+                        let aux = ((parseInt(element.MemoryUse)/parseInt(element.MemoryTotal))*100).toFixed(2);
+                        auxMemory.push(aux);
+                    })
+                    data.forEach(element => {
+                        auxCpu.push(element.CpuUse);
+                        auxTime.push(element._id.date);
+                    })
+                    setGraphic({
+                        cpu: auxCpu,
+                        disk: data[0].DiskUse,
+                        diskTotal: data[0].DiskTotal,
+                        time: auxTime,
+                        memory: auxMemory,
+                    })
+                }
             })
             .catch(error => console.log(error));
         }

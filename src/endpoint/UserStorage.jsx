@@ -28,11 +28,19 @@ function servermemoryusegraph(token){
     .catch(error => console.log(error));
 }
 
+//Retorna os 100 ultimos registros do log do mongodb
+function mongolog(token){
+    return http.post("/getmongolog/", {token})
+    .then(response => {return response.data})
+    .catch(error => console.log(error));
+}
+
 const endpoint = {
     cpudiskusegraph,
     mongomemoryusegraph,
     javamemoryusegraph,
     servermemoryusegraph,
+    mongolog,
 };
 
 export default endpoint;

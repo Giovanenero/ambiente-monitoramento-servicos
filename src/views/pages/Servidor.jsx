@@ -6,10 +6,8 @@ import { useState, useEffect } from "react";
 function Servidor({location}){
 
     const props = location.state;
-    console.log(props.graphic);
     
     const [graphicLeftData, setGraphicLeftData] = useState(null)
-    const [graphicRightData, setGraphicRightData] = useState(null)
     const [graphicBottomData, setGraphicBottomData] = useState(null)
 
     function convertPorcentage(data){
@@ -17,15 +15,59 @@ function Servidor({location}){
         return ((parseFloat(data[0]) / sum) * 100).toFixed(2);
     }
 
-    useEffect(() => {
-        ChartJS.register(CategoryScale, LinearScale, PointElement, ArcElement, LineElement, Tooltip, Legend, Title, Filler);
-        //Iniaizaliza os dados e as opções de cada gráfico
-        //dados do gráfico à direita
+    function initializeGrapfichBottom(){
+        //dados do gráfico de Line(use de CPU e RAM)
+        let graphic = props.graphic;
+        let time = [];
+        graphic.time.forEach(element => {
+            time.push(element.slice(11, 19));
+        })
+        setGraphicBottomData({
+            data: {
+                labels: time.reverse(),
+                datasets: [{
+                    label: "CPU %",
+                    data: graphic.cpu.reverse(),
+                    backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                    borderColor: 'rgba(255, 0, 0, 0.6)',
+                    fill: true,
+                    pointRadius: 0,
+                    lineTension: 0.2
+                }, {
+                    label: 'RAM %',
+                    data: graphic.memory.reverse(),
+                    backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                    borderColor: 'rgba(0, 0, 255, 0.6)',
+                    fill: true,
+                    pointRadius: 0,
+                    lineTension: 0.2
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "Uso CPU e RAM"
+                    },
+                    legend: {
+                        position: "top"
+                    },
+                },
+            }
+        })
+    }
+
+    function initializeGraphicLeft(){
+        //dados do gráfico Doughnut(use de disco)
+        let diskUse = props.graphic.disk;
+        let diskTotal = props.graphic.diskTotal;
         setGraphicLeftData({data: {
             labels: ["Utilizado(Gb)", "Disponível(Gb)"],
             datasets: [{
                 label: "Disponível(Gb)",
-                data: ["5684", "2050"],
+                data: [diskUse, diskTotal],
                 backgroundColor: ['rgba(0, 92, 200)', 'rgba(220, 220, 220)']
             }]
             }, options: {
@@ -33,7 +75,7 @@ function Servidor({location}){
                 maintainAspectRatio: false,
                 plugins: {
                     title: {
-                        text: "Uso de disco: partição/app", display: true
+                        text: "Uso de disco:", display: true
                     },
                 },
             }, plugins: [
@@ -62,106 +104,28 @@ function Servidor({location}){
                 }
             ]
         });
-        //dados do gráfico à esquerda
-        setGraphicRightData({data: {
-            labels: ["Utilizado(Gb)", "Disponível(Gb)"],
-            datasets: [{
-                label: "Disponível(Gb)",
-                data: ["3000", "5000"],
-                backgroundColor: ['rgba(0, 92, 200)', 'rgba(220, 220, 220)']
-            }]
-            }, options: {
-                plugins: {
-                    title: {
-                        text: "Uso de disco: partição/dados", display: true
-                    },
-                }, 
-            }, plugins: [
-                {
-                    id: "textCenter",
-                    beforeDatasetsDraw(chart){
-                        const {ctx, data} = chart;
-                        ctx.save();
-                        ctx.font = "700 25px sans-serif";
-                        ctx.fillStyle = "rgba(0, 92, 200)";
-                        ctx.textAlign = "center";
-                        ctx.textBaseline = "middle";
-                        ctx.fillText(`${convertPorcentage(data.datasets[0].data)}%`, chart.getDatasetMeta(0).data[0].x,  chart.getDatasetMeta(0).data[0].y -10);
-                    }
-                }, {
-                    id: "textCenter",
-                    beforeDatasetsDraw(chart){
-                        const {ctx} = chart;
-                        ctx.save();
-                        ctx.font = "200 14px sans-serif";
-                        ctx.fillStyle = "rgba(0, 92, 200)";
-                        ctx.textAlign = "center";
-                        ctx.textBaseline = "middle";
-                        ctx.fillText("Utilizado", chart.getDatasetMeta(0).data[0].x,  chart.getDatasetMeta(0).data[0].y +20);
-                    }
-                }
-            ]
-        });
-        //dados do gráfico de baixo
-        setGraphicBottomData({
-            data: {
-                labels: ["2016", "2017", "2018", "2019", "2020"],
-                datasets: [{
-                    label: "CPU %",
-                    data: ["2000", "5000", "1500", "3200", "1200"],
-                    backgroundColor: 'rgba(255, 0, 0, 0.2)',
-                    borderColor: 'rgba(255, 0, 0, 0.6)',
-                    fill: true,
-                    pointRadius: 0,
-                    lineTension: 0.2
-                }, {
-                    label: 'RAM %',
-                    data: ["1000", "2000", "1500", "2000", "3500"],
-                    backgroundColor: 'rgba(0, 0, 255, 0.2)',
-                    borderColor: 'rgba(0, 0, 255, 0.6)',
-                    fill: true,
-                    pointRadius: 0,
-                    lineTension: 0.2
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: "Uso CPU e RAM"
-                    },
-                    legend: {
-                        position: "top"
-                    },
-                },
-            }
-        })
+    }
+
+    useEffect(() => {
+        ChartJS.register(CategoryScale, LinearScale, PointElement, ArcElement, LineElement, Tooltip, Legend, Title, Filler);
+        //Iniaizaliza os dados e as opções de cada gráfico
+        initializeGrapfichBottom();
+        initializeGraphicLeft();
+        // eslint-disable-next-line
     }, []); 
 
     return (    
         <div style={{background: "#eee"}}>
             <div className={styles.containerServidor}>
-                <p>Informações do Sercidor</p>
+                <p>Informações do Servidor</p>
                 <div className={styles.contentServidor}>
                     <div className={styles.useDisk}>
-                        <div>
-                            {graphicLeftData && 
-                                <Doughnut 
-                                    data={graphicLeftData.data} 
-                                    options={graphicLeftData.options} 
-                                    plugins={graphicLeftData.plugins}
+                        {graphicLeftData && 
+                            <Doughnut 
+                                data={graphicLeftData.data} 
+                                options={graphicLeftData.options} 
+                                plugins={graphicLeftData.plugins}
                             />}
-                        </div>
-                        <div>
-                            {graphicRightData && 
-                                <Doughnut 
-                                    data={graphicRightData.data} 
-                                    options={graphicRightData.options}
-                                    plugins={graphicRightData.plugins}
-                            />}
-                        </div>
                     </div>
                     <div className={styles.useGraphic}>
                         {graphicBottomData && <Line data={graphicBottomData.data} options={graphicBottomData.options}/>}

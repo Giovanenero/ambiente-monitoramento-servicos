@@ -4,6 +4,7 @@ import { Line } from "react-chartjs-2";
 import {Chart as ChartJS, CategoryScale, LinearScale, Filler, Title, Tooltip, Legend, PointElement, LineElement} from "chart.js"
 
 import { useState, useEffect } from "react";
+import endpoint from "./../../endpoint/UserStorage";
 
 function MongoDB({location}){
     var props = location.state;
@@ -54,10 +55,15 @@ function MongoDB({location}){
     ]
 
     useEffect(() => {
+
+        console.log("Ainda o os logs do mongoDB não foram finalizados...ver com o Daniel")
+        endpoint.mongolog(localStorage.getItem("token"))
+        .then(data => console.log(data))
+        .catch(error => console.log(error));
+
         let auxLabels = [];
         let auxData = [];
         props.graphic.forEach(data => {
-            console.log(data._id.date);
             let date = data._id.date;
             date = date.slice(11, 19);
             auxLabels.push(date);
@@ -69,22 +75,14 @@ function MongoDB({location}){
         setUserData({
             labels: auxLabels.reverse(),
             datasets: [{
-                label: "CPU %",
+                label: "Memória",
                 data: auxData.reverse(),
                 backgroundColor: 'rgba(255, 0, 0, 0.2)',
                 borderColor: 'rgba(255, 0, 0, 0.6)',
                 fill: true,
                 pointRadius: 0,
                 lineTension: 0.2,
-            }, {
-                label: 'RAM %',
-                data: auxData.reverse(),
-                backgroundColor: 'rgba(0, 0, 255, 0.2)',
-                borderColor: 'rgba(0, 0, 255, 0.6)',
-                fill: true,
-                pointRadius: 0,
-                lineTension: 0.2
-            }]
+            },]
         })
         setUserOptions({
             maintainAspectRatio: false,
@@ -92,7 +90,7 @@ function MongoDB({location}){
             plugins: {
                 title: {
                     display: true,
-                    text: "Uso CPU e RAM"
+                    text: "Uso de memória"
                 },
                 legend: {
                     position: "top",
