@@ -57,7 +57,7 @@ function MongoDB({location}){
     useEffect(() => {
 
         console.log("Ainda o os logs do mongoDB não foram finalizados...ver com o Daniel")
-        endpoint.mongolog(localStorage.getItem("token"))
+        endpoint.mongolog(props.token)
         .then(data => console.log(data))
         .catch(error => console.log(error));
 

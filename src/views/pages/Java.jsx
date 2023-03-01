@@ -90,7 +90,7 @@ function Java({location}){
     }
 
     function initializeLogs(){
-        endpoint.springbootlog(localStorage.getItem("token"))
+        endpoint.springbootlog(props.token)
         .then(data => {
             let i = 0;
             let auxLogs = [];

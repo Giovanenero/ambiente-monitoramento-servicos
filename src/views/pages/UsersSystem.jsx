@@ -5,7 +5,7 @@ import { PopUp } from "../../components/PopUp";
 import InfoUser from "../popups/InfoUser";
 import endpoint from "./../../endpoint/SystemUsers";
 
-function UsersSystem(){
+function UsersSystem({token}){
 
     const [trigger, setTrigger] = useState();
     const [systemUsers, setSystemUsers] = useState([])
@@ -13,10 +13,10 @@ function UsersSystem(){
 
     useEffect(() => {
         setTrigger(false)
-        const token = localStorage.getItem("token");
         endpoint.systemusers(token)
         .then(data => {setSystemUsers(data)})
         .catch(error => console.log(error));
+        // eslint-disable-next-line
     }, []);
 
 
@@ -45,7 +45,7 @@ function UsersSystem(){
                     </header>
 
                     <div className={styles.logs}>
-                        {systemUsers.map((systemUser, index) => {
+                        {systemUsers && systemUsers.map((systemUser, index) => {
                             return (
                                 <div className={styles.log} onClick={() => {setTrigger(true); setUser(systemUser);}} key={index}>
                                     <p>{systemUser.firstName + " " + systemUser.lastName}</p>
@@ -60,7 +60,7 @@ function UsersSystem(){
             </div>
             {trigger && (
                 <PopUp trigger={trigger} setTrigger={setTrigger} title="Informações do usuário e histórico de acesso">
-                    <InfoUser user={user}/>
+                    <InfoUser user={user} token={token}/>
                 </PopUp>
             )}
         </>

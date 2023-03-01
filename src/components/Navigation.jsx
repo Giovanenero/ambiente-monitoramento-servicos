@@ -12,7 +12,7 @@ import Java from "./../views/pages/Java";
 
 import { useState, useEffect } from "react";
 
-function Navigation(){
+function Navigation({token}){
 
     const [pageSelected, setPageSelected] = useState("");
 
@@ -40,8 +40,8 @@ function Navigation(){
                 </div>
             </div>
             <Switch>
-                <Route path="/" exact component={DashBoard}/>
-                <Route path="/systemlogs" component={UsersSystem}/>
+                <Route path="/" exact component={() => <DashBoard token={token}/>}/>
+                <Route path="/systemlogs" component={() => <UsersSystem token={token}/>}/>
                 <Route path="/java/spring" component={Spring}/>
                 <Route path="/mongodb" component={MongoDB}/>
                 <Route path="/servidor" component={Servidor}/>

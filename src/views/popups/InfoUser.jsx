@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 
 import endpoint from "./../../endpoint/SystemUsers";
 
-function InfoUser({user}){
+function InfoUser({user, token}){
 
     const [accessHistory, setAccessHistory] = useState([]);
 
@@ -22,11 +22,10 @@ function InfoUser({user}){
         }
         setAccessHistory(listAccessHistory);
 
-        endpoint.useraccess(localStorage.getItem("token"), "63fcfa6e46f3667bd5163164")
+        endpoint.useraccess(token, "63fcfa6e46f3667bd5163164")
         .then(data => console.log(data))
         .catch(error => console.log(error));
-
-
+        // eslint-disable-next-line
     }, []);
 
     return (

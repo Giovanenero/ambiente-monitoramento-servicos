@@ -8,17 +8,17 @@ import endpoint from "../../endpoint/SystemUsers";
 
 import { useState, useEffect } from "react";
 
-function DashBoard(){
+function DashBoard({token}){
 
     const [usersOnline, setUsersOnline] = useState([]);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
         endpoint.systemlogs(token)
         .then(data => {
             setUsersOnline(data);
         })
         .catch(error => console.log(error));
+        // eslint-disable-next-line
     }, []);
 
     return (
@@ -32,17 +32,20 @@ function DashBoard(){
                             logo={logoMongo}
                             css={styles.mongoDB}
                             path="/mongodb"
+                            token={token}
                         />
                         <Service 
                             nameService="Java"
                             logo={logoJava}
                             css={styles.java}
                             path="/java"
+                            token={token}
                         />
                         <Service 
                             nameService="Servidor"
                             css={styles.servidor}
                             path="/servidor"
+                            token={token}
                         />
                     </div>
                     <div className={styles.containerOnlineUsers}>

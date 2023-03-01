@@ -10,6 +10,7 @@ function Service({
     logo,
     css,
     path,
+    token,
 }){
     const [imgService, setImgService] = useState("");
     const [infoService, setInfoService] = useState("");
@@ -18,7 +19,7 @@ function Service({
 
 
     function memoryMongo(){
-        endpoint.mongomemoryusegraph(localStorage.getItem("token"))
+        endpoint.mongomemoryusegraph(token)
         .then(data => {
             setGraphic(data);
             let total = parseInt(data[0].MemoryTotal);
@@ -33,7 +34,7 @@ function Service({
     }
 
     function memoryJava(){
-        endpoint.javamemoryusegraph(localStorage.getItem("token"))
+        endpoint.javamemoryusegraph(token)
             .then(data => {
                 setGraphic(data)
                 let total = parseInt(data[0].MemoryTotal);
@@ -48,7 +49,7 @@ function Service({
     }
 
     function memoryServidor(){
-        endpoint.servermemoryusegraph(localStorage.getItem("token"))
+        endpoint.servermemoryusegraph(token)
         .then(data => {
             setGraphic(data);
             let total = parseInt(data[0].MemoryTotal);
@@ -88,7 +89,7 @@ function Service({
                 </>
             )
         } else {
-            endpoint.cpudiskusegraph(localStorage.getItem("token"))
+            endpoint.cpudiskusegraph(token)
             .then(data => {
                 let useDisk = parseInt(data[0].DiskUse);
                 let porcentage = ((useDisk/parseInt(data[0].DiskTotal))*100).toFixed(2);
@@ -135,7 +136,7 @@ function Service({
             <div className={styles.containerInfo}>
                 {infoService}
             </div>
-            <Link to={{pathname: path, state: {logo: logo, graphic: graphic}}}>
+            <Link to={{pathname: path, state: {logo: logo, graphic: graphic, token: token}}}>
                 <button>Ver mais</button>
             </Link>
         </div>

@@ -1,5 +1,13 @@
 import http from "./http-common";
 
+//função que retorna as informações do usuário pelo token
+function infouser(token){
+    return http
+        .post("/getuser/", {token})
+        .then(response => {return response.data})
+        .catch(error => console.log(error));
+}
+
 //função que retorna todos os usuários do sistema
 function systemusers(token){
     return http
@@ -39,6 +47,7 @@ const endpoint = {
     systemusers,
     systemlogs,
     useraccess,
+    infouser,
 };
 
 export default endpoint;
