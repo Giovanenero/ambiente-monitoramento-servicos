@@ -1,5 +1,5 @@
 .containerInfoUser {
-    width: 770px;
+    width: 1000px;
     height: 500px;
     background-color: #fff;
     border-radius: 0 0 15px 15px;
@@ -10,7 +10,7 @@
 
 .containerPersonalInfo {
     background-color: #eee;
-    width: 40%;
+    width: 28%;
     height: 98%;
     border-radius: 15px;
     overflow: scroll;
@@ -60,7 +60,7 @@
 }
 
 .userLogs {
-    width: 55%;
+    width: 72%;
     height: 98%;
     padding-left: 30px;
     padding-right: 15px;
@@ -108,4 +108,8 @@
     align-items: center;
     justify-content: center;
     margin: 0;
+}
+
+.failed {
+    background-color: rgb(202, 153, 153);
 }

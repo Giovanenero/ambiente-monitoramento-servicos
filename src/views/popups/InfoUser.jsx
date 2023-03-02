@@ -5,25 +5,20 @@ import photo from "./../../assets/img/foto-perfil.jpg";
 import { useState, useEffect } from "react";
 
 import endpoint from "./../../endpoint/SystemUsers";
+import DataParse from "./../../helpers/DataParse";
 
 function InfoUser({user, token}){
 
-    const [accessHistory, setAccessHistory] = useState([]);
+    const [accessHistory, setAccessHistory] = useState(null);
 
     useEffect(() => {
-        let i;
-        let listAccessHistory = [];
-        for(i = 0; i < 10; i++){
-            let aux = {
-                date: "10/05/2022 às 10:53:24",
-                action: "login"   
-            }
-            listAccessHistory.push(aux);
-        }
-        setAccessHistory(listAccessHistory);
-
-        endpoint.useraccess(token, "63fcfa6e46f3667bd5163164")
-        .then(data => console.log(data))
+        endpoint.useraccess(token, "63fe528162efe93a9a3d36f8")
+        .then(data => {
+            data.forEach((element, index) => {
+                data[index].date = DataParse.parseDate(element.date);
+            })
+            setAccessHistory(data.reverse());
+        })
         .catch(error => console.log(error));
         // eslint-disable-next-line
     }, []);
@@ -69,13 +64,16 @@ function InfoUser({user, token}){
                     <p>Data</p>
                     <span></span>
                     <p>Tipo de Ação</p>
+                    <span></span>
+                    <p>Status</p>
                 </header>
                 <div className={styles.logs}>
-                    {accessHistory.map((element, index) => {
+                    {accessHistory && accessHistory.map((element, index) => {
                         return (
-                            <div key={index}>
-                                <p>{element.date}</p>
-                                <p>{element.action}</p>
+                            <div key={index} className={element.jobStatus === "Failed" ? styles.failed : ""}>
+                                <p>{element.date.day + " às " + element.date.hour}</p>
+                                <p>{element.jobType === "ModelCreate" ? element.jobType + ": " + element.algorithmName : element.jobType}</p>
+                                <p>{element.jobStatus}</p>
                             </div>
                         )
                     })}

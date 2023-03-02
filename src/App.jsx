@@ -8,6 +8,7 @@ import './App.css';
 function App() {
     const queryParameters = new URLSearchParams(window.location.search);
     const [isAdm, setIsAdm] = useState(false);
+    const [finished, setFinished] = useState(false);
     const [token, setToken] = useState()
     
     useEffect(() => {
@@ -31,15 +32,15 @@ function App() {
                     alert("Apenas admin pode ter acesso a esta página")
                 }
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {console.log(error); setFinished(true)});
         }
     }, [token])
 
-    return ( 
-        <div className="App" >
-            {isAdm && <Navigation token={token}/>}
+    return (isAdm && !finished) ? (
+        <div className="App">
+            <Navigation token={token}/>
         </div>
-    );
+    ) : "";
 }
 
 export default App;
