@@ -18,7 +18,7 @@ function DashBoard({token}){
             setUsersOnline(data);
         })
         .catch(error => console.log(error));
-        // eslint-disable-next-line
+        //eslint-disable-next-line
     }, []);
 
     return (
@@ -50,14 +50,14 @@ function DashBoard({token}){
                     </div>
                     <div className={styles.containerOnlineUsers}>
                         <div className={styles.titleOnlineUsers}><p>Usuários online</p></div>
-                        {usersOnline.map((user, index) => {
-                            return (
+                        {usersOnline.length !== 0 ? usersOnline.map((user, index) => {
+                            return (user !== null) ? (
                                 <div className={styles.userOnline} key={index}>
                                     <p>{user.firstName} {user.lastName}</p>
                                     <div></div>
                                 </div>
-                            )
-                        })}
+                            ) : ("")
+                        }) : ""}
                     </div>
                 </div>
             </div>

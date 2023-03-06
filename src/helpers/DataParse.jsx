@@ -1,5 +1,5 @@
 function parseDate(date){
-    if(typeof number){
+    if(typeof date === "number"){
         var dateSeconds = new Date(date * 1000).toString();
         const arr = dateSeconds.split(' ');
         let month = arr[1]
@@ -58,8 +58,16 @@ function parseDate(date){
     return null;
 }
 
+function parseMemory(megabyte){
+    if(typeof megabyte === "number"){
+        let memoyGB = megabyte / 1000;
+        return memoyGB.toFixed(2);
+    }
+}
+
 const DataParse = {
     parseDate,
+    parseMemory,
 }
 
 export default DataParse;

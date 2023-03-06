@@ -10,10 +10,24 @@ function Servidor({location}){
     const [graphicLeftData, setGraphicLeftData] = useState(null)
     const [graphicBottomData, setGraphicBottomData] = useState(null)
 
+    useEffect(() => {
+        ChartJS.register(CategoryScale, LinearScale, PointElement, ArcElement, LineElement, Tooltip, Legend, Title, Filler);
+        //Iniaizaliza os dados e as opções de cada gráfico
+        if(props.graphic){
+            initializeGrapfichBottom();
+            initializeGraphicLeft();
+        }
+        // eslint-disable-next-line
+    }, []); 
+
     function convertPorcentage(data){
         let sum = parseFloat(data[0]) + parseFloat(data[1]);
         return ((parseFloat(data[0]) / sum) * 100).toFixed(2);
     }
+
+    
+
+
 
     function initializeGrapfichBottom(){
         //dados do gráfico de Line(use de CPU e RAM)
@@ -105,14 +119,6 @@ function Servidor({location}){
             ]
         });
     }
-
-    useEffect(() => {
-        ChartJS.register(CategoryScale, LinearScale, PointElement, ArcElement, LineElement, Tooltip, Legend, Title, Filler);
-        //Iniaizaliza os dados e as opções de cada gráfico
-        initializeGrapfichBottom();
-        initializeGraphicLeft();
-        // eslint-disable-next-line
-    }, []); 
 
     return (    
         <div style={{background: "#eee"}}>

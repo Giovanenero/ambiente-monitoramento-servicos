@@ -30,8 +30,7 @@ function App() {
                     setIsAdm(true);
                 } else {
                     alert("Apenas admin pode ter acesso a esta página")
-                }
-            })
+                }})
             .catch((error) => {console.log(error); setFinished(true)});
         }
     }, [token])

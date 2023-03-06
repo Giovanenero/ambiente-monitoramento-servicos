@@ -38,6 +38,10 @@
     color: #255a97;
 }
 
+.containerInfo p span {
+    color: #404040;
+}
+
 .containerService button {
     position: absolute;
     bottom: 0;
