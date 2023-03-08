@@ -6,6 +6,7 @@ import endpoint from "./../../endpoint/SpringBootLog";
 
 import { PopUp } from "../../components/PopUp";
 import InfoLogSpring from "../popups/InfoLogSpring";
+import DataParse from "../../helpers/DataParse";
 
 import { Line } from "react-chartjs-2";
 import {Chart as ChartJS, CategoryScale, LinearScale, Filler, Title, Tooltip, Legend, PointElement, LineElement} from "chart.js"
@@ -16,62 +17,29 @@ function Java({location}){
     const [logs, setLogs] = useState([]);
     const [trigger, setTrigger] = useState();
     const [lines, setLines] = useState([]);
-    const [graphic, setGraphic] = useState();
+    const [graphic, setGraphic] = useState(null);
 
-    function treatTime(date){
-        let year = date.slice(0, 4);
-        let month = date.slice(5, 7);
-        let day = date.slice(8, 10);
-        let clock = date.slice(11);
-        return {
-            day: day + "/" + month + "/" + year,
-            clock: clock,
-        }
-    }
-
-    function treatData(data){
-        if(data !== ""){
-            let lines = [];
-            let first = 0;
-            let last = data.indexOf("at ");
-            lines.push(data.slice(first, last));
-            first = last + 3;
-            last = data.indexOf("at ", first);
-            while(last !== -1){
-                lines.push("at "+ data.slice(first, last));
-                first = last + 3;
-                last = data.indexOf("at ", first);
-            }
-            let date = treatTime(lines[0].slice(0, 19));
-            return {
-                lines: lines,
-                day: date.day,
-                clock: date.clock,
-            }
-        } return null;
-    }
-
-    function initializeGraphic(){
-        let auxData = [];
-        let auxLabels = [];
-        props.graphic.forEach(element => {
-            let aux;
-            auxData.push(element.MemoryUse);
-            aux = element._id.date;
-            auxLabels.push(aux.slice(11, 19));
-        });
+    function initializeGraphic(time){
         setGraphic({
             data: {
-                labels: auxLabels.reverse(),
+                labels: time.reverse(),
                 datasets: [{
-                    label: "Memória",
-                    data: auxData.reverse(),
+                    label: "Memória Virtual",
+                    data: props.graphic.virtualMemory.reverse(),
                     backgroundColor: 'rgba(255, 0, 0, 0.2)',
                     borderColor: 'rgba(255, 0, 0, 0.6)',
                     fill: true,
                     pointRadius: 0,
-                    lineTension: 0.2,
-                },]
+                    lineTension: 0.2
+                }, {
+                    label: 'Memória Residente',
+                    data: props.graphic.residentMemory.reverse(),
+                    backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                    borderColor: 'rgba(0, 0, 255, 0.6)',
+                    fill: true,
+                    pointRadius: 0,
+                    lineTension: 0.2
+                }]
             },
             options: {
                 maintainAspectRatio: false,
@@ -79,10 +47,10 @@ function Java({location}){
                 plugins: {
                     title: {
                         display: true,
-                        text: "Uso de memória"
+                        text: "Uso de Memória em Mb"
                     },
                     legend: {
-                        position: "top",
+                        position: "top"
                     },
                 },
             }
@@ -95,7 +63,7 @@ function Java({location}){
             let i = 0;
             let auxLogs = [];
             while(i < data.length){
-                let aux = treatData(data[i]);
+                let aux = DataParse.treatData(data[i])
                 if(aux !== null){
                     auxLogs.unshift(aux);
                 }
@@ -109,7 +77,13 @@ function Java({location}){
     useEffect(() => {
         setTrigger(false);
         ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Filler, Title, Tooltip, Legend);
-        initializeGraphic();
+        if(props.graphic){
+            let time = [];
+            props.graphic.time.forEach(element => {
+                time.push(element.hour);
+            })
+            initializeGraphic(time);
+        }
         initializeLogs();
         // eslint-disable-next-line 
     }, []);

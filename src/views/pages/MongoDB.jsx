@@ -8,8 +8,7 @@ import endpoint from "./../../endpoint/UserStorage";
 
 function MongoDB({location}){
     var props = location.state;
-    const [userData, setUserData] = useState(null);
-    const [userOptions, setUserOptions] = useState(null);
+    const [graphic, setGraphic] = useState(null);
 
     var log = [{
         data: "09/02/2022",
@@ -60,52 +59,61 @@ function MongoDB({location}){
         endpoint.mongolog(props.token)
         .then(data => console.log(data))
         .catch(error => console.log(error));
-
-        let auxLabels = [];
-        let auxData = [];
-        props.graphic.forEach(data => {
-            let date = data._id.date;
-            date = date.slice(11, 19);
-            auxLabels.push(date);
-        })
-        props.graphic.forEach(data => {
-            auxData.push(data.MemoryUse)
-        })
         ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Filler, Title, Tooltip, Legend);
-        setUserData({
-            labels: auxLabels.reverse(),
-            datasets: [{
-                label: "Memória",
-                data: auxData.reverse(),
-                backgroundColor: 'rgba(255, 0, 0, 0.2)',
-                borderColor: 'rgba(255, 0, 0, 0.6)',
-                fill: true,
-                pointRadius: 0,
-                lineTension: 0.2,
-            },]
-        })
-        setUserOptions({
-            maintainAspectRatio: false,
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: "Uso de memória"
-                },
-                legend: {
-                    position: "top",
-                },
-            },
-        })
+        if(props.graphic){
+            let time = [];
+            props.graphic.time.forEach(element => {
+                time.push(element.hour);
+            })
+            initializeGraphic(time);
+        }
         // eslint-disable-next-line
     }, [])
+
+    function initializeGraphic(time){
+        setGraphic({
+            data: {
+                labels: time.reverse(),
+                datasets: [{
+                    label: "Memória Virtual",
+                    data: props.graphic.virtualMemory.reverse(),
+                    backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                    borderColor: 'rgba(255, 0, 0, 0.6)',
+                    fill: true,
+                    pointRadius: 0,
+                    lineTension: 0.2
+                }, {
+                    label: 'Memória Residente',
+                    data: props.graphic.residentMemory.reverse(),
+                    backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                    borderColor: 'rgba(0, 0, 255, 0.6)',
+                    fill: true,
+                    pointRadius: 0,
+                    lineTension: 0.2
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "Uso de Memória em Mb"
+                    },
+                    legend: {
+                        position: "top"
+                    },
+                },
+            }
+        })
+    }
 
     return (
         <div className={styles.mongoDB}>
             <div className={styles.containerMongoDB}>
                 <div className={styles.containerHeader}>
                     <div className={styles.useMemory}>
-                        {userData && <Line data={userData} options={userOptions}/>}
+                        {graphic && <Line data={graphic.data} options={graphic.options}/>}
                     </div>
                     <div className={styles.img}>
                         <img src={props.logo} alt="logotipo do MongoDB"/>

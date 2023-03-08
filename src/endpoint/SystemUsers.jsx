@@ -1,3 +1,4 @@
+import DataParse from "../helpers/DataParse";
 import http from "./http-common";
 
 //função que retorna as informações do usuário pelo token

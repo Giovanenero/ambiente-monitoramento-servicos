@@ -29,5 +29,11 @@
 }
 
 .useDisk {
+    display: flex;
+    flex-direction: row;
     padding: 10px 0px 30px 0px;
+}
+
+.useDisk div {
+    width: 50%;
 }

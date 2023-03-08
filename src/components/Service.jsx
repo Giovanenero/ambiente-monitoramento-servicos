@@ -1,7 +1,7 @@
 import styles from "./../assets/components/Service.module.css";
 import ServidorIcon from "../assets/icons/jsxIcons/ServidorIcon";
 import { Link } from "react-router-dom";
-
+import DataParse from "./../helpers/DataParse";
 import endpoint from "../endpoint/UserStorage";
 
 import { useEffect, useReducer } from "react";
@@ -32,13 +32,35 @@ function Service({
 
     function reducer(state, action){
         let residentMemory = "";
+        let resident = [];
+        let time = [];
         if(action.type === "mongodb" || action.type === "java"){
             let virtualMemory = "";
+            let flagResident = false;
+            let flagVirtual = false;
             if(typeof action.data[0].ResidentMemUsed === "number"){
                 residentMemory = (action.data[0].ResidentMemUsed / 1000).toFixed(2);
+                flagResident = !flagResident;
             }
             if(typeof action.data[0].VirtualMemUsed === "number"){
                 virtualMemory = (action.data[0].VirtualMemUsed / 1000).toFixed(2);
+                flagVirtual = !flagVirtual;
+            }
+            let graphic = null;
+            if(flagResident && flagVirtual){
+                let virtual = [];
+                action.data.forEach(element => {
+                    if(element){
+                        resident.push(element.ResidentMemUsed);
+                        virtual.push(element.VirtualMemUsed);
+                        time.push(DataParse.parseDate(element.Time));
+                    }
+                })
+                graphic = {
+                    residentMemory: resident,
+                    virtualMemory: virtual,
+                    time: time,
+                }
             }
             return {
                 ...state,
@@ -52,7 +74,7 @@ function Service({
                         {virtualMemory !== "" ? <p>{"Virtual: " + virtualMemory + "Gb"}</p> : <p>Erro</p>}
                     </>
                 ),
-                graphic: action.data,
+                graphic: graphic,
             }
         } else {
             let server = {
@@ -63,6 +85,7 @@ function Service({
                 flagSwap: false,
                 swapMemory: "",
                 swapPorcentage: "",
+                graphic: null,
             }
             if(typeof action.ArrayCpuDisk[0].DiskUse === "number" && typeof action.ArrayCpuDisk[0].DiskTotal === "number"){
                 server.diskPorcentage = ((action.ArrayCpuDisk[0].DiskUse / action.ArrayCpuDisk[0].DiskTotal) * 100).toFixed(2)
@@ -78,6 +101,28 @@ function Service({
                 server.swapPorcentage = ((action.ArrayMemory[0].SwapMemUsed/action.ArrayMemory[0].SwapMemTotal) * 100).toFixed(2);
                 server.flagSwap = !server.flagSwap;
             }
+            if(server.flagDisk && server.flagResident && server.flagSwap){
+                let swap = [];
+                let cpu = [];
+                let disk = [];
+                action.ArrayMemory.forEach((element, index) => {
+                    if(element){
+                        resident.push(element.ResidentMemUsed);
+                        swap.push(element.SwapMemUsed);
+                        time.push(DataParse.parseDate(element.Time));
+                        cpu.push(action.ArrayCpuDisk[index].CpuUse);
+                        disk.push(action.ArrayCpuDisk[index].DiskUse);
+                    }
+                });
+                server.graphic = {
+                    residentMemory: resident,
+                    swapMemory: swap,
+                    time: time,
+                    cpu: cpu,
+                    disk: disk,
+                    diskTotal: action.ArrayCpuDisk[0].DiskTotal,
+                }  
+            }
             return {
                 ...state,
                 image: <div className={css}><ServidorIcon style={{size: 70}}/></div>,
@@ -90,6 +135,7 @@ function Service({
                         {server.flagSwap === true ? <p>{"Swap: " + server.swapMemory + "Gb (" + server.swapPorcentage + "%)"}</p> : <p>Erro</p>}
                     </>
                 ),
+                graphic: server.graphic,
             }
         }
     }
@@ -124,8 +170,6 @@ function Service({
             .then(data1 => {
                 endpoint.cpudiskusegraph(token)
                 .then(data2 => {
-                    console.log(data1);
-                    console.log(data2);
                     if(data1.length > 0 && data2.length > 0){
                         dispatch({type: name, ArrayMemory: data1, ArrayCpuDisk: data2});
                     }

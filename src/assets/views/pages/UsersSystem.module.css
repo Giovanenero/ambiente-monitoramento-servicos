@@ -13,10 +13,12 @@
     background-color: #fff;
     padding: 15px;
     border-radius: 15px 15px 0px 0px;
+    display: flex;
+    justify-content: space-between;
 }
 
-.input {
-    width: 380px;
+.box {
+    width: 300px;
     height: 30px;
     border-radius: 8px;
     border: 1px solid #aaa;
@@ -25,17 +27,27 @@
     gap: 10px;
 }
 
-.input input {
-    border-radius: 8px;
+.box input {
+    border-radius: inherit;
     border: none;
     outline: none;
-    width: 85%;
+    width: 78%;
     height: 25px;
     padding-left: 20px;
 }
 
-.input svg {
+.box svg {
     color: #aaa;
+}
+
+.box select {
+    width: inherit;
+    height: inherit;
+    border: none;
+    border-radius: inherit;
+    background-color: inherit;
+    cursor: pointer;
+    padding-left: 20px;
 }
 
 .containerContent {

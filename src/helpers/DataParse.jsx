@@ -65,9 +65,42 @@ function parseMemory(megabyte){
     }
 }
 
+function treatData(data){
+    const treatTime = (date) => {
+        let year = date.slice(0, 4);
+        let month = date.slice(5, 7);
+        let day = date.slice(8, 10);
+        let clock = date.slice(11);
+        return {
+            day: day + "/" + month + "/" + year,
+            clock: clock,
+        }
+    }
+    if(data !== ""){
+        let lines = [];
+        let first = 0;
+        let last = data.indexOf("at ");
+        lines.push(data.slice(first, last));
+        first = last + 3;
+        last = data.indexOf("at ", first);
+        while(last !== -1){
+            lines.push("at "+ data.slice(first, last));
+            first = last + 3;
+            last = data.indexOf("at ", first);
+        }
+        let date = treatTime(lines[0].slice(0, 19));
+        return {
+            lines: lines,
+            day: date.day,
+            clock: date.clock,
+        }
+    } return null;
+}
+
 const DataParse = {
     parseDate,
     parseMemory,
+    treatData,
 }
 
 export default DataParse;

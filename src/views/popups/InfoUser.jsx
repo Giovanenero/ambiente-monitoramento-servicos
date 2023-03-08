@@ -9,17 +9,24 @@ import DataParse from "./../../helpers/DataParse";
 
 function InfoUser({user, token}){
 
-    const [accessHistory, setAccessHistory] = useState(null);
+    const [accessHistory, setAccessHistory] = useState([]);
 
     useEffect(() => {
-        endpoint.useraccess(token, "63fe528162efe93a9a3d36f8")
-        .then(data => {
-            data.forEach((element, index) => {
-                data[index].date = DataParse.parseDate(element.date);
+        if(user){
+            endpoint.useraccess(token, user.userId)
+            .then(data => {
+                data.forEach((element, index) => {
+                    let time = DataParse.parseDate(element.date)
+                    if(time){
+                        data[index].date = time;
+                    } else {
+                        data[index.date] = "Erro"
+                    }
+                })
+                setAccessHistory(data.reverse());
             })
-            setAccessHistory(data.reverse());
-        })
-        .catch(error => console.log(error));
+            .catch(error => console.log(error));
+        }
         // eslint-disable-next-line
     }, []);
 
